@@ -12,10 +12,10 @@ async function run() {
     // Step 5: Run the script by running the following command in your terminal: node main.js
     // Step 6: Sit back and relax as the scraper does the hard work for you!
 
-    const baseUrl = 'https://app.apollo.io/#/people?finderViewId=5b6dfc5a73f47568b2e5f11c&contactLabelIds[]=65bc77746972960001f3e565&prospectedByCurrentTeam[]=yes';
-    const csvUrl = 'realestate.csv';
-    const email = 'mike@horizonlabsgroup.com';
-    const password = 'Apify123!!!';
+    const baseUrl = 'APOLLO LIST URL HERE';
+    const csvUrl = 'nameofcsvfile.csv';
+    const email = 'YOUR EMAIL HERE';
+    const password = 'YOUR PASSWORD HERE';
 
     // Start the Puppeteer browser
 
