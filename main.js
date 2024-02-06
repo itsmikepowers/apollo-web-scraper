@@ -190,31 +190,3 @@ async function run() {
     console.timeEnd("ScriptRunTime");
 }
 run().catch(console.error);
-
-const lines = csvRows.split('\n');
-for (const line of lines) {
-    const fields = line.split(',');
-    const row = {
-        firstName: fields[0],
-        lastName: fields[1],
-        fullName: fields[2],
-        jobTitle: fields[3],
-        companyName: fields[4],
-        location: fields[5],
-        employeeCount: fields[6],
-        phone: fields[7],
-        industry: fields[8],
-        url: fields[9],
-        linkedinUrl: fields[10],
-        facebookUrl: fields[11],
-        twitterUrl: fields[12],
-        companyLinkedinUrl: fields[13],
-        companyUrl: fields[14],
-        keywords: fields[15],
-        email1: fields[16],
-        email2: fields[17],
-        email3: fields[18],
-        
-    };
-    await Apify.pushData(row);
-}
