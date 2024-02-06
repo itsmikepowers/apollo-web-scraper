@@ -12,10 +12,10 @@ async function run() {
     // Step 5: Run the script by running the following command in your terminal: node main.js
     // Step 6: Sit back and relax as the scraper does the hard work for you!
 
-    const baseUrl = 'APOLLO LIST URL HERE';
-    const csvUrl = 'nameofcsvfile.csv';
-    const email = 'YOUR EMAIL HERE';
-    const password = 'YOUR PASSWORD HERE';
+    const baseUrl = 'https://app.apollo.io/#/people?finderViewId=5b6dfc5a73f47568b2e5f11c&contactLabelIds[]=65bc77746972960001f3e565&prospectedByCurrentTeam[]=yes';
+    const csvUrl = 'realestate.csv';
+    const email = 'mike@horizonlabsgroup.com';
+    const password = 'Apify123!!!!';
 
     // Start the Puppeteer browser
 
@@ -32,16 +32,26 @@ async function run() {
     await page.type('input[name="email"]', email);
     await page.type('input[name="password"]', password);
     await page.click('button[type="submit"]');
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(5000);
     await page.goto(baseUrl);
-    await page.waitForTimeout(2000);
-    const xpath = '/html/body/div[2]/div/div[2]/div[2]/div/div[2]/div/div/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/div/div/a[1]';
-    const elements = await page.$x(xpath);
-    if (elements.length > 0) {
-        const elementText = await page.evaluate(el => el.innerText, elements[0]);
-        const totalItems = Number(elementText.match(/\d+/)[0]);
+    await page.waitForTimeout(5000);
+    const totalText = await page.evaluate(() => {
+        const elements = Array.from(document.querySelectorAll('finder-results-list-panel a'));
+        const targetElement = elements.find(e => e.textContent.includes('Total'));
+        return targetElement ? targetElement.textContent : null;
+    });
+    let totalItems = 0;
+    if (totalText) {
+        const totalItemsMatch = totalText.match(/\d+/);
+        if (totalItemsMatch) {
+            totalItems = parseInt(totalItemsMatch[0], 10);
+            console.log(`Total items: ${totalItems}`);
+        }
+    }
+    if (totalItems > 0) {
         const itemsPerPage = 25;
         const totalPages = Math.ceil(totalItems / itemsPerPage);
+        console.log(`Total pages: ${totalPages}`);
         let allData = [];
         for (let i = 1; i <= totalPages; i++) {
             const pageUrl = `${baseUrl}&page=${i}`;
