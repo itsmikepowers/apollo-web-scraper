@@ -12,10 +12,10 @@ async function run() {
     // Step 5: Run the script by running the following command in your terminal: node main.js
     // Step 6: Sit back and relax as the scraper does the hard work for you!
 
-    const baseUrl = 'https://app.apollo.io/#/people?finderViewId=5b6dfc5a73f47568b2e5f11c&contactLabelIds[]=65bc77746972960001f3e565&prospectedByCurrentTeam[]=yes';
-    const csvUrl = 'realestate.csv';
-    const email = 'mike@horizonlabsgroup.com';
-    const password = 'Apify123!!!!';
+    const baseUrl = 'YourApolloURLHere';
+    const csvUrl = 'NameOfCSV.csv';
+    const email = 'YourEmailHere';
+    const password = 'YourPasswordHere';
 
     // Start the Puppeteer browser
 
@@ -36,10 +36,10 @@ async function run() {
     await page.goto(baseUrl);
     await page.waitForTimeout(5000);
     const totalText = await page.evaluate(() => {
-        const elements = Array.from(document.querySelectorAll('finder-results-list-panel a'));
-        const targetElement = elements.find(e => e.textContent.includes('Total'));
-        return targetElement ? targetElement.textContent : null;
+        const targetElement = Array.from(document.querySelectorAll('a')).find(e => e.textContent.trim().startsWith('Total'));
+        return targetElement ? targetElement.textContent.trim() : null;
     });
+    
     let totalItems = 0;
     if (totalText) {
         const totalItemsMatch = totalText.match(/\d+/);
